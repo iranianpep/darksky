@@ -1,0 +1,20 @@
+language: php
+
+matrix:
+  include:
+  - php: 7.0
+  - php: 7.1
+
+sudo: false
+
+addons:
+  code_climate:
+    repo_token: 35fd34991dd17bf1e419bc058c014482759b494aad0f02f19594f39b58950d79
+
+install:
+    - composer install
+
+script: phpunit --coverage-clover build/logs/clover.xml --configuration phpunit.xml
+
+after_success:
+- vendor/bin/test-reporter
