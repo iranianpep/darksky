@@ -1,0 +1,22 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php"
+      standard: "PSR2"
+  fixme:
+      enabled: true
+  phpmd:
+      enabled: true
+      config:
+        rulesets: "phpmd.xml"
+  duplication:
+    enabled: true
+    config:
+      languages:
+        php:
+          mass_threshold: 53
+ratings:
+   paths:
+   - "src/**/*"
+   
