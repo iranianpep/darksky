@@ -13,83 +13,70 @@ class GeocoderTest extends TestCase
         $expected = [
             'results' => [
                 [
-                    'address_components' =>
-                        [
+                    'address_components' => [
                             [
-                                'long_name' => 'Melbourne',
+                                'long_name'  => 'Melbourne',
                                 'short_name' => 'Melbourne',
-                                'types' =>
-                                    [
+                                'types'      => [
                                         0 => 'colloquial_area',
                                         1 => 'locality',
                                         2 => 'political',
                                     ],
                             ],
                             [
-                                'long_name' => 'Victoria',
+                                'long_name'  => 'Victoria',
                                 'short_name' => 'VIC',
-                                'types' =>
-                                    [
+                                'types'      => [
                                         0 => 'administrative_area_level_1',
                                         1 => 'political',
                                     ],
                             ],
                             [
-                                'long_name' => 'Australia',
+                                'long_name'  => 'Australia',
                                 'short_name' => 'AU',
-                                'types' =>
-                                    [
+                                'types'      => [
                                         0 => 'country',
                                         1 => 'political',
                                     ],
                             ],
                         ],
                     'formatted_address' => 'Melbourne VIC, Australia',
-                    'geometry' =>
-                        [
-                            'bounds' =>
-                                [
-                                    'northeast' =>
-                                        [
+                    'geometry'          => [
+                            'bounds' => [
+                                    'northeast' => [
                                             'lat' => -37.51127369999999672245394322089850902557373046875,
                                             'lng' => 145.512528800000012552118278108537197113037109375,
                                         ],
-                                    'southwest' =>
-                                        [
+                                    'southwest' => [
                                             'lat' => -38.43385930000000172412910615094006061553955078125,
                                             'lng' => 144.593741800000003649984137155115604400634765625,
                                         ],
                                 ],
-                            'location' =>
-                                [
+                            'location' => [
                                     'lat' => -37.81362759999999667570591554976999759674072265625,
                                     'lng' => 144.96305760000001328080543316900730133056640625,
                                 ],
                             'location_type' => 'APPROXIMATE',
-                            'viewport' =>
-                                [
-                                    'northeast' =>
-                                        [
+                            'viewport'      => [
+                                    'northeast' => [
                                             'lat' => -37.51127369999999672245394322089850902557373046875,
                                             'lng' => 145.512528800000012552118278108537197113037109375,
                                         ],
-                                    'southwest' =>
-                                        [
+                                    'southwest' => [
                                             'lat' => -38.43385930000000172412910615094006061553955078125,
                                             'lng' => 144.593741800000003649984137155115604400634765625,
                                         ],
                                 ],
                         ],
                     'place_id' => 'ChIJ90260rVG1moRkM2MIXVWBAQ',
-                    'types' =>
-                        [
+                    'types'    => [
                             'colloquial_area',
                             'locality',
                             'political',
                         ],
                 ],
             ],
-            'status' => 'OK'
+            'status' => 'OK',
         ];
 
         $this->assertEquals($expected, $geocoder->geocode('Melbourne, Australia'));
