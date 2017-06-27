@@ -18,4 +18,6 @@ engines:
           mass_threshold: 53
 ratings:
    paths:
-   - "src/Geocoder/*"
+   - "src/**/*"
+exclude_paths:
+- "**/vendor/**/*"
