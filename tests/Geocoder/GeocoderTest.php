@@ -19,7 +19,7 @@ class GeocoderTest extends TestCase
         $this->assertEquals(
             [
                 'lat' => '-37.8136276',
-                'lng' => '144.9630576'
+                'lng' => '144.9630576',
             ],
             (new Geocoder())->getLatLng('Melbourne, Australia')
         );
