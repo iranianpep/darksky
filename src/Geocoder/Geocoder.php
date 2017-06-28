@@ -6,29 +6,32 @@ class Geocoder
 {
     const API_URL = 'http://maps.google.com/maps/api/geocode';
 
+    /**
+     * @param        $address
+     * @param string $outputFormat
+     *
+     * @return string
+     */
     public function geocode($address, $outputFormat = 'json')
     {
-        $address = urlencode($address);
-        $result = file_get_contents(self::API_URL."/{$outputFormat}?address={$address}&sensor=false");
-
-        return $result;
+        return file_get_contents(
+            self::API_URL.'/'.$outputFormat.'?address='.urlencode($address).'&sensor=false'
+        );
     }
 
-    public function asArray()
+    /**
+     * @param $address
+     *
+     * @return array
+     */
+    public function getLatLng($address)
     {
-        if ($this->getDefaultOutputFormat() !== 'json') {
-            throw new \Exception('This function is only compatible with json as default output format');
-        }
+        $result = $this->geocode($address);
+        $result = json_decode($result);
 
-        return json_decode($this->rawResponse, true);
-    }
-
-    public function asObject()
-    {
-        if ($this->getDefaultOutputFormat() !== 'json') {
-            throw new \Exception('This function is only compatible with json as default output format');
-        }
-
-        return json_decode($this->rawResponse);
+        return [
+            'lat' => $result->results[0]->geometry->location->lat,
+            'lng' => $result->results[0]->geometry->location->lng
+        ];
     }
 }

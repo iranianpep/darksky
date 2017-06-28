@@ -6,24 +6,23 @@ use PHPUnit\Framework\TestCase;
 
 class GeocoderTest extends TestCase
 {
-    public function testAsRaw()
+    public function testGeocode()
     {
         $this->assertEquals(
             $this->getExpectedData(),
-            (new Geocoder())->geocode('Melbourne, Australia')->asRaw()
+            (new Geocoder())->geocode('Melbourne, Australia')
         );
     }
 
-    public function testAsArray()
+    public function testGetLatLng()
     {
-        $expected = json_decode($this->getExpectedData(), true);
-        $this->assertEquals($expected, (new Geocoder())->geocode('Melbourne, Australia')->asArray());
-    }
-
-    public function testAsObject()
-    {
-        $expected = json_decode($this->getExpectedData());
-        $this->assertEquals($expected, (new Geocoder())->geocode('Melbourne, Australia')->asObject());
+        $this->assertEquals(
+            [
+                'lat' => '-37.8136276',
+                'lng' => '144.9630576'
+            ],
+            (new Geocoder())->getLatLng('Melbourne, Australia')
+        );
     }
 
     private function getExpectedData()
