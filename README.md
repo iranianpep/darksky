@@ -1,5 +1,5 @@
 # Geocoder
-A class for handling geocoding
+A class for handling geocoding.
 
 [![Latest Stable Version](https://poser.pugx.org/geocoder/geocoder/v/stable)](https://packagist.org/packages/geocoder/geocoder)
 [![Build Status](https://travis-ci.org/iranianpep/geocoder.svg?branch=master)](https://travis-ci.org/iranianpep/geocoder)
