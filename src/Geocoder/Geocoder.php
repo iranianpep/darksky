@@ -27,11 +27,20 @@ class Geocoder
     public function getLatLng($address)
     {
         $result = $this->geocode($address);
-        $result = json_decode($result);
+        $result = json_decode($result, true);
 
-        return [
-            'lat' => $result->results[0]->geometry->location->lat,
-            'lng' => $result->results[0]->geometry->location->lng
-        ];
+        if ($result['status'] !== 'OK') {
+            return;
+        }
+
+        $latLng = [];
+        foreach ($result['results'] as $result) {
+            $latLng[] = [
+                'lat' => $result['geometry']['location']['lat'],
+                'lng' => $result['geometry']['location']['lng']
+            ];
+        }
+
+        return $latLng;
     }
 }

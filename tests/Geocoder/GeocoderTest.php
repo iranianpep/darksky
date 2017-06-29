@@ -6,11 +6,42 @@ use PHPUnit\Framework\TestCase;
 
 class GeocoderTest extends TestCase
 {
+    const VALID_ADDRESS = 'Melbourne, Australia';
+    const VALID_ADDRESS_MULTIPLE_RESULT = 'springfield';
+    const UNKNOWN_ADDRESS = 'Dummy Address';
+
     public function testGeocode()
     {
         $this->assertEquals(
             $this->getExpectedData(),
-            (new Geocoder())->geocode('Melbourne, Australia')
+            (new Geocoder())->geocode(self::VALID_ADDRESS)
+        );
+    }
+
+    public function testGeocodeMultipleResult()
+    {
+        $result = (new Geocoder())->geocode(self::VALID_ADDRESS_MULTIPLE_RESULT);
+        $result = json_decode($result, true);
+
+        $this->assertEquals(
+            6,
+            count($result['results'])
+        );
+    }
+
+    public function testGeocodeUnknownAddress()
+    {
+        $this->assertEquals(
+            $this->getExpectedNullData(),
+            (new Geocoder())->geocode(self::UNKNOWN_ADDRESS)
+        );
+    }
+
+    public function testGetLatLngUnknownAddress()
+    {
+        $this->assertEquals(
+            null,
+            (new Geocoder())->getLatLng(self::UNKNOWN_ADDRESS)
         );
     }
 
@@ -18,11 +49,33 @@ class GeocoderTest extends TestCase
     {
         $this->assertEquals(
             [
-                'lat' => '-37.8136276',
-                'lng' => '144.9630576'
+                [
+                    'lat' => '-37.8136276',
+                    'lng' => '144.9630576'
+                ]
             ],
-            (new Geocoder())->getLatLng('Melbourne, Australia')
+            (new Geocoder())->getLatLng(self::VALID_ADDRESS)
         );
+    }
+
+    public function testGetLatLngMultipleResult()
+    {
+        $this->assertEquals(
+            [
+                'lat' => '39.78172130000000805694071459583938121795654296875',
+                'lng' => '-89.650148099999995565667632035911083221435546875'
+            ],
+            (new Geocoder())->getLatLng(self::VALID_ADDRESS_MULTIPLE_RESULT)[0]
+        );
+    }
+
+    private function getExpectedNullData()
+    {
+        return '{
+   "results" : [],
+   "status" : "ZERO_RESULTS"
+}
+';
     }
 
     private function getExpectedData()
