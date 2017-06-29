@@ -1,5 +1,5 @@
 # Geocoder
-A packagist ready package to start a new PHP 7 project including Composer, PHPUnit, Travis, CodeClimate and StyleCI.
+A class for handling geocoding
 
 [![Latest Stable Version](https://poser.pugx.org/geocoder/geocoder/v/stable)](https://packagist.org/packages/geocoder/geocoder)
 [![Build Status](https://travis-ci.org/iranianpep/geocoder.svg?branch=master)](https://travis-ci.org/iranianpep/geocoder)
