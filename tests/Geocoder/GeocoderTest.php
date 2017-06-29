@@ -51,8 +51,8 @@ class GeocoderTest extends TestCase
             [
                 [
                     'lat' => '-37.8136276',
-                    'lng' => '144.9630576'
-                ]
+                    'lng' => '144.9630576',
+                ],
             ],
             (new Geocoder())->getLatLng(self::VALID_ADDRESS)
         );
@@ -63,7 +63,7 @@ class GeocoderTest extends TestCase
         $this->assertEquals(
             [
                 'lat' => '39.78172130000000805694071459583938121795654296875',
-                'lng' => '-89.650148099999995565667632035911083221435546875'
+                'lng' => '-89.650148099999995565667632035911083221435546875',
             ],
             (new Geocoder())->getLatLng(self::VALID_ADDRESS_MULTIPLE_RESULT)[0]
         );

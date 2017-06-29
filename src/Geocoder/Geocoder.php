@@ -37,7 +37,7 @@ class Geocoder
         foreach ($result['results'] as $result) {
             $latLng[] = [
                 'lat' => $result['geometry']['location']['lat'],
-                'lng' => $result['geometry']['location']['lng']
+                'lng' => $result['geometry']['location']['lng'],
             ];
         }
 
