@@ -12,8 +12,9 @@ class Geocoder
      * @param string $region
      * @param string $outputFormat
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function geocode($address, $region = '', $outputFormat = 'json')
     {
