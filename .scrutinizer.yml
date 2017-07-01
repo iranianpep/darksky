@@ -1,6 +1,11 @@
 before_commands:
     - "composer update --prefer-source"
 
+filter:
+    excluded_paths:
+        - 'tests/*'
+        - 'vendor'
+
 checks:
     php: true
 
