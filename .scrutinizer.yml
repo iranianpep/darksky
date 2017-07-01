@@ -1,13 +1,11 @@
+before_commands:
+    - "composer update --prefer-source"
+
 filter:
     excluded_paths:
         - 'tests/*'
 checks:
     php: true
-tools:
-    php_sim: true
-    php_pdepend: false
-    php_analyzer: true
-    php_cs_fixer: true
 
 build:
     tests:
