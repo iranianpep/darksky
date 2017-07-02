@@ -19,7 +19,7 @@ class Geocoder
     public function geocode($address, $region = '', $outputFormat = 'json')
     {
         if ($this->validateOutputFormat($outputFormat) !== true) {
-            throw new \Exception("'{$outputFormat}' is not a valid format.");
+            throw new \Exception("'{$outputFormat}' is not a valid format");
         }
 
         return file_get_contents($this->generateRequestUrl($address, $region, $outputFormat));

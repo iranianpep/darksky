@@ -37,6 +37,22 @@ class GeocoderTest extends TestCase
         );
     }
 
+    public function testGeocodeInvalidFormat()
+    {
+        $this->expectException('\Exception');
+        $this->expectExceptionMessage("'invalidFormat' is not a valid format");
+
+        (new Geocoder())->geocode(self::VALID_ADDRESS, '', 'invalidFormat');
+    }
+
+    public function testGeocodeWithRegion()
+    {
+        $this->assertEquals(
+            $this->getExpectedData(),
+            (new Geocoder())->geocode(self::VALID_ADDRESS, 'au')
+        );
+    }
+
     public function testGetLatLngUnknownAddress()
     {
         $this->assertEquals(
