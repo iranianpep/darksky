@@ -53,6 +53,19 @@ class GeocoderTest extends TestCase
         );
     }
 
+    public function testGeocodeWithInvalidApiKey()
+    {
+        $this->assertEquals(
+            '{
+   "error_message" : "The provided API key is invalid.",
+   "results" : [],
+   "status" : "REQUEST_DENIED"
+}
+',
+            (new Geocoder('invalidApiKey'))->geocode(self::VALID_ADDRESS, 'au')
+        );
+    }
+
     public function testGetLatLngUnknownAddress()
     {
         $this->assertEquals(

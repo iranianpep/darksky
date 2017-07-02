@@ -7,6 +7,29 @@ class Geocoder
     const API_URL = 'http://maps.google.com/maps/api/geocode';
     const VALID_OUTPUT_FORMAT = ['json', 'xml'];
 
+    private $apiKey;
+
+    public function __construct($apiKey = '')
+    {
+        $this->setApiKey($apiKey);
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiKey()
+    {
+        return $this->apiKey;
+    }
+
+    /**
+     * @param string $apiKey
+     */
+    public function setApiKey($apiKey)
+    {
+        $this->apiKey = $apiKey;
+    }
+
     /**
      * @param        $address
      * @param string $region
@@ -78,6 +101,10 @@ class Geocoder
 
         if (!empty($region)) {
             $baseUrl .= "&region={$region}";
+        }
+
+        if (!empty($this->getApiKey())) {
+            $baseUrl .= '&key='.$this->getApiKey();
         }
 
         return $baseUrl;
