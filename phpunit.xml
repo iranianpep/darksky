@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" verbose="true" debug="true" processIsolation="true">
   <testsuites>
-    <testsuite name="Geocoder Test Suite">
-      <directory suffix="Test.php">tests/Geocoder/</directory>
+    <testsuite name="Darksky Test Suite">
+      <directory suffix="Test.php">tests/Darksky/</directory>
     </testsuite>
   </testsuites>
 
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">src/Geocoder/</directory>
+      <directory suffix=".php">src/Darksky/</directory>
     </whitelist>
   </filter>
 

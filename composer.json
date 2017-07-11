@@ -1,15 +1,13 @@
 {
-  "name": "geocoder/geocoder",
-  "description": "A class for handling geocoding",
-  "homepage": "https://github.com/iranianpep/geocoder",
+  "name": "darksky/darksky",
+  "description": "A simple wrapper for Dark Sky API",
+  "homepage": "https://github.com/iranianpep/darksky",
   "license": "MIT",
   "authors": [
     { "name": "Ehsan Abbasi", "email": "ehsan.abb@gmail.com" }
   ],
   "require": {
     "php": ">=7",
-    "nlp-tools/nlp-tools": "^0.1.3",
-    "guzzlehttp/guzzle": "6.2.*",
     "codeclimate/php-test-reporter": "^0.4.4"
   },
   "require-dev": {
@@ -17,10 +15,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Geocoder\\": ["src/Geocoder"]
+      "Darksky\\": ["src/Darksky"]
     }
   },
   "autoload-dev": {
-    "psr-4": {"Geocoder\\": "tests/Geocoder"}
+    "psr-4": {"Darksky\\": "tests/Darksky"}
   }
 }
