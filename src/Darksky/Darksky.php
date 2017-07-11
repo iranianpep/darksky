@@ -10,7 +10,7 @@ class Darksky
         'ca',
         'uk2',
         'us',
-        'si'
+        'si',
     ];
 
     const VALID_EXCLUDE = [
@@ -19,7 +19,7 @@ class Darksky
         'hourly',
         'daily',
         'alerts',
-        'flags'
+        'flags',
     ];
 
     private $key;
@@ -97,8 +97,8 @@ class Darksky
     private function generateRequestUrl(array $exclude = [], $extend = false)
     {
         $queryString = [
-            'lang' => $this->getLanguage(),
-            'units' => $this->getUnits()
+            'lang'  => $this->getLanguage(),
+            'units' => $this->getUnits(),
         ];
 
         if (!empty($exclude)) {

@@ -28,7 +28,7 @@ class DarkskyTest extends TestCase
 
     public function testForecastWithExclude()
     {
-        $excludes = ['minutely','hourly','daily','alerts'];
+        $excludes = ['minutely', 'hourly', 'daily', 'alerts'];
 
         // Create a stub for the SomeClass class.
         $stub = $this->createMock(Darksky::class);
@@ -52,7 +52,7 @@ class DarkskyTest extends TestCase
         $this->expectExceptionMessage("Invalid excludes. Provide valid excludes: {$validExcludes}");
 
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $darksky->forecast(['minutely','hourly','daily','alerts', 'invalid-exclude']);
+        $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts', 'invalid-exclude']);
     }
 
     public function testForecastHourly()
