@@ -9,7 +9,7 @@ sudo: false
 
 addons:
   code_climate:
-    repo_token: 35fd34991dd17bf1e419bc058c014482759b494aad0f02f19594f39b58950d79
+    repo_token: 806ffaf1bcd1080b8b6ba4839e7acefdb6508332b18162816e4683307e008fec
 
 install:
     - composer install
