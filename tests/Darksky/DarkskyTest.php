@@ -49,7 +49,7 @@ class DarkskyTest extends TestCase
 
         $this->expectException('\Exception');
         $validExcludes = implode(',', Darksky::VALID_EXCLUDE);
-        $this->expectExceptionMessage("'invalid-exclude' is not a valid exclude. Valid excludes: {$validExcludes}");
+        $this->expectExceptionMessage("Invalid excludes. Provide valid excludes: {$validExcludes}");
 
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
         $darksky->forecast(['minutely','hourly','daily','alerts', 'invalid-exclude']);
@@ -113,6 +113,18 @@ class DarkskyTest extends TestCase
 
         $darksky->setKey('12345');
         $this->assertEquals('12345', $darksky->getKey());
+    }
+
+    public function testGetLongitude()
+    {
+        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $this->assertEquals(self::LONG, $darksky->getLongitude());
+    }
+
+    public function testGetLatitude()
+    {
+        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $this->assertEquals(self::LAT, $darksky->getLatitude());
     }
 
     private function getSampleResponse(array $excludes = [], $hourly = false)

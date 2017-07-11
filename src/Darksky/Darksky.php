@@ -103,10 +103,9 @@ class Darksky
 
         if (!empty($exclude)) {
             // validate $exclude
-            try {
-                $this->validateExcludes($exclude);
-            } catch (\Exception $e) {
-                throw $e;
+            if ($this->validateExcludes($exclude) !== true) {
+                $validExcludes = implode(',', self::VALID_EXCLUDE);
+                throw new \Exception("Invalid excludes. Provide valid excludes: {$validExcludes}'");
             }
 
             $queryString['exclude'] = implode(',', $exclude);
@@ -128,8 +127,7 @@ class Darksky
 
         foreach ($exclude as $anExclude) {
             if (!in_array($anExclude, self::VALID_EXCLUDE)) {
-                $validExcludes = implode(',', self::VALID_EXCLUDE);
-                throw new \Exception("'{$anExclude}' is not a valid exclude. Valid excludes: {$validExcludes}'");
+                return false;
             }
         }
 
