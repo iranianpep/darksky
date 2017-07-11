@@ -37,7 +37,7 @@ class DarkskyTest extends TestCase
         $stub->method('forecast')
             ->willReturn($this->getSampleResponse($excludes));
 
-        $result = $stub->forecast();
+        $result = $stub->forecast($excludes);
         $result = json_decode($result, true);
 
         $this->assertTrue(isset($result['currently']));
@@ -75,7 +75,7 @@ class DarkskyTest extends TestCase
         $stub->method('forecast')
             ->willReturn($this->getSampleResponse([], true));
 
-        $result = $stub->forecast();
+        $result = $stub->forecast([], true);
         $result = json_decode($result, true);
 
         // next 168 hours

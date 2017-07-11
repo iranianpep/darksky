@@ -103,11 +103,10 @@ class Darksky
 
         if (!empty($exclude)) {
             // validate $exclude
-            foreach ($exclude as $anExclude) {
-                if (!in_array($anExclude, self::VALID_EXCLUDE)) {
-                    $validExcludes = implode(',', self::VALID_EXCLUDE);
-                    throw new \Exception("'{$anExclude}' is not a valid exclude. Valid excludes: {$validExcludes}'");
-                }
+            try {
+                $this->validateExcludes($exclude);
+            } catch (\Exception $e) {
+                throw $e;
             }
 
             $queryString['exclude'] = implode(',', $exclude);
@@ -119,6 +118,22 @@ class Darksky
 
         return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude()
             .'?'.http_build_query($queryString);
+    }
+
+    private function validateExcludes($exclude)
+    {
+        if (empty($exclude)) {
+            return true;
+        }
+
+        foreach ($exclude as $anExclude) {
+            if (!in_array($anExclude, self::VALID_EXCLUDE)) {
+                $validExcludes = implode(',', self::VALID_EXCLUDE);
+                throw new \Exception("'{$anExclude}' is not a valid exclude. Valid excludes: {$validExcludes}'");
+            }
+        }
+
+        return true;
     }
 
     /**
