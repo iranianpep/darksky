@@ -96,10 +96,7 @@ class Darksky
 
     private function generateRequestUrl(array $exclude = [], $extend = false)
     {
-        $queryString = [
-            'lang'  => $this->getLanguage(),
-            'units' => $this->getUnits(),
-        ];
+        $queryString = ['lang'  => $this->getLanguage(), 'units' => $this->getUnits()];
 
         if (!empty($exclude)) {
             // validate $exclude
