@@ -26,6 +26,19 @@ class DarkskyTest extends TestCase
         $this->assertEquals(self::TIMEZONE, $result['timezone']);
     }
 
+    public function testForecastWithExcludeAndHourly()
+    {
+        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $this->expectException('\PHPUnit\Framework\Error\Warning');
+        $this->expectExceptionMessage(
+            "file_get_contents(https://api.darksky.net/forecast/12345/42.3601,-71.0589
+            ?lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts):
+            failed to open stream: HTTP request failed! HTTP/1.1 403 Forbidden"
+        );
+
+        $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts'], true);
+    }
+
     public function testForecastWithExclude()
     {
         $excludes = ['minutely', 'hourly', 'daily', 'alerts'];
@@ -54,15 +67,6 @@ class DarkskyTest extends TestCase
 
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
         $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts', 'invalid-exclude']);
-
-        $this->expectException('\PHPUnit\Framework\Error\Warning');
-        $this->expectExceptionMessage(
-            "file_get_contents(https://api.darksky.net/forecast/12345/42.3601,-71.0589
-            ?lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts):
-            failed to open stream: HTTP request failed! HTTP/1.1 403 Forbidden"
-        );
-
-        $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts'], true);
     }
 
     public function testForecastHourly()
