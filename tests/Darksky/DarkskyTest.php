@@ -35,10 +35,10 @@ class DarkskyTest extends TestCase
 
         // Configure the stub.
         $stub->method('forecast')
-            ->with($excludes)
+            ->with($this->anything(), $this->anything())
             ->will($this->returnValue($this->getSampleResponse($excludes)));
 
-        $result = $stub->forecast($excludes);
+        $result = $stub->forecast($excludes, true);
         $result = json_decode($result, true);
 
         $this->assertTrue(isset($result['currently']));
