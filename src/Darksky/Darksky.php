@@ -96,6 +96,12 @@ class Darksky
 
     private function generateRequestUrl(array $exclude = [], $extend = false)
     {
+        return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude()
+            .'?'.$this->generateUrlQueryString($exclude, $extend);
+    }
+
+    private function generateUrlQueryString(array $exclude = [], $extend = false)
+    {
         $queryString = ['lang'  => $this->getLanguage(), 'units' => $this->getUnits()];
 
         if (!empty($exclude)) {
@@ -112,8 +118,7 @@ class Darksky
             $queryString['extend'] = 'hourly';
         }
 
-        return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude()
-            .'?'.http_build_query($queryString);
+        return http_build_query($queryString);
     }
 
     private function validateExcludes($exclude)
