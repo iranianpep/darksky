@@ -14,3 +14,9 @@ A simple wrapper for Dark Sky API
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8575ff8e33034e0a81cedd9464ac359a)](https://www.codacy.com/app/iranianpep/darksky?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=iranianpep/darksky&amp;utm_campaign=Badge_Grade)
 [![Packagist](https://img.shields.io/packagist/dt/darksky/darksky.svg)](https://packagist.org/packages/darksky/darksky)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/iranianpep/darksky/master/LICENSE)
+
+## Usage
+```
+$darksky = new Darksky('API_KEY', 'LAT', 'LONG');
+$result = $darksky->forcast();
+```
