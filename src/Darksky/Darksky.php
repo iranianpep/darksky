@@ -104,13 +104,13 @@ class Darksky
     {
         $queryString = ['lang'  => $this->getLanguage(), 'units' => $this->getUnits()];
 
-        if (!empty($exclude)) {
-            // validate $exclude
-            if ($this->validateExcludes($exclude) !== true) {
-                $validExcludes = implode(',', self::VALID_EXCLUDE);
-                throw new \Exception("Invalid excludes. Provide valid excludes: {$validExcludes}'");
-            }
+        // validate $exclude
+        if ($this->validateExcludes($exclude) !== true) {
+            $validExcludes = implode(',', self::VALID_EXCLUDE);
+            throw new \Exception("Invalid excludes. Provide valid excludes: {$validExcludes}'");
+        }
 
+        if (!empty($exclude)) {
             $queryString['exclude'] = implode(',', $exclude);
         }
 
