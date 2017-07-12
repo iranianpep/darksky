@@ -57,9 +57,9 @@ class DarkskyTest extends TestCase
 
         $this->expectException('\PHPUnit\Framework\Error\Warning');
         $this->expectExceptionMessage(
-            "file_get_contents(https://api.darksky.net/forecast/12345/42.3601,-71.0589
+            'file_get_contents(https://api.darksky.net/forecast/12345/42.3601,-71.0589
             ?lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts):
-            failed to open stream: HTTP request failed! HTTP/1.1 403 Forbidden"
+            failed to open stream: HTTP request failed! HTTP/1.1 403 Forbidden'
         );
 
         $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts'], true);
