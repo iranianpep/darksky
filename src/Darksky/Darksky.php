@@ -2,6 +2,10 @@
 
 namespace Darksky;
 
+/**
+ * Class Darksky
+ * @package Darksky
+ */
 class Darksky
 {
     const API_BASE_URL = 'https://api.darksky.net/forecast';
@@ -28,6 +32,15 @@ class Darksky
     private $language;
     private $units;
 
+    /**
+     * Darksky constructor.
+     *
+     * @param        $key
+     * @param        $latitude
+     * @param        $longitude
+     * @param string $lang
+     * @param string $units
+     */
     public function __construct($key, $latitude, $longitude, $lang = 'en', $units = 'auto')
     {
         $this->setKey($key);
@@ -37,6 +50,13 @@ class Darksky
         $this->setUnits($units);
     }
 
+    /**
+     * @param array $exclude
+     * @param bool  $extend
+     *
+     * @return string
+     * @throws \Exception
+     */
     public function forecast(array $exclude = [], $extend = false)
     {
         try {
@@ -94,12 +114,25 @@ class Darksky
         $this->longitude = $longitude;
     }
 
+    /**
+     * @param array $exclude
+     * @param bool  $extend
+     *
+     * @return string
+     */
     private function generateRequestUrl(array $exclude = [], $extend = false)
     {
         return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude()
             .'?'.$this->generateUrlQueryString($exclude, $extend);
     }
 
+    /**
+     * @param array $exclude
+     * @param bool  $extend
+     *
+     * @return string
+     * @throws \Exception
+     */
     private function generateUrlQueryString(array $exclude = [], $extend = false)
     {
         $queryString = ['lang'  => $this->getLanguage(), 'units' => $this->getUnits()];
@@ -121,6 +154,11 @@ class Darksky
         return http_build_query($queryString);
     }
 
+    /**
+     * @param $exclude
+     *
+     * @return bool
+     */
     private function validateExcludes($exclude)
     {
         if (empty($exclude)) {
