@@ -3,8 +3,7 @@
 namespace Darksky;
 
 /**
- * Class Darksky
- * @package Darksky
+ * Class Darksky.
  */
 class Darksky
 {
@@ -54,8 +53,9 @@ class Darksky
      * @param array $exclude
      * @param bool  $extend
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function forecast(array $exclude = [], $extend = false)
     {
@@ -130,8 +130,9 @@ class Darksky
      * @param array $exclude
      * @param bool  $extend
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     private function generateUrlQueryString(array $exclude = [], $extend = false)
     {
