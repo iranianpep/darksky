@@ -16,6 +16,9 @@ A simple wrapper for Dark Sky API
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/iranianpep/darksky/master/LICENSE)
 
 ## Usage
+- Get the API key
+- Install this package in your project:<br> `composer require darksky/darksky`
+- To forecast
 ```
 $darksky = new Darksky('API_KEY', 'LAT', 'LONG');
 $result = $darksky->forcast();
