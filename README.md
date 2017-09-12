@@ -23,3 +23,10 @@ A simple wrapper for Dark Sky API
 $darksky = new Darksky('API_KEY', 'LAT', 'LONG');
 $result = $darksky->forcast();
 ```
+
+Or:
+
+```
+$darksky = new Darksky('API_KEY', 'LAT', 'LONG');
+$result = $darksky->timeMachine('UNIX_TIME');
+```
