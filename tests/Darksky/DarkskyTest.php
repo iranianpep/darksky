@@ -126,6 +126,20 @@ class DarkskyTest extends TestCase
         $this->assertEquals(self::TIMEZONE, $result['timezone']);
     }
 
+    public function testTimeMachineWithException()
+    {
+        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $this->expectException('\PHPUnit\Framework\Error\Warning');
+        $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589,409467600';
+        $queryString = 'lang=en&units=auto';
+        $httpError = 'HTTP request failed! HTTP/1.1 403 Forbidden';
+        $this->expectExceptionMessage(
+            "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
+        );
+
+        $darksky->timeMachine('409467600');
+    }
+
     public function testSetUnits()
     {
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
