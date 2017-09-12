@@ -162,6 +162,7 @@ class Darksky
         // validate $exclude
         if ($this->validateExcludes($exclude) !== true) {
             $validExcludes = implode(',', self::VALID_EXCLUDE);
+
             throw new \Exception("Invalid excludes. Provide valid excludes: {$validExcludes}'");
         }
 
@@ -229,6 +230,7 @@ class Darksky
     {
         if (!in_array($units, self::VALID_UNITS)) {
             $validUnits = implode(',', self::VALID_UNITS);
+
             throw new \Exception("'{$units}' is not a valid unit. Valid units: {$validUnits}");
         }
 
