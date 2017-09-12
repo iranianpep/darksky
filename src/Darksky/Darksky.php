@@ -67,6 +67,23 @@ class Darksky
     }
 
     /**
+     * @param $time
+     * @param array $exclude
+     *
+     * @throws \Exception
+     *
+     * @return bool|string
+     */
+    public function timeMachine($time, array $exclude = [])
+    {
+        try {
+            return file_get_contents($this->generateRequestUrl($exclude, false, $time));
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * @return string
      */
     public function getKey()
@@ -120,9 +137,13 @@ class Darksky
      *
      * @return string
      */
-    private function generateRequestUrl(array $exclude = [], $extend = false)
+    private function generateRequestUrl(array $exclude = [], $extend = false, $time = '')
     {
-        return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude()
+        if (!empty($time)) {
+            $time = ",{$time}";
+        }
+
+        return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude().$time
             .'?'.$this->generateUrlQueryString($exclude, $extend);
     }
 
