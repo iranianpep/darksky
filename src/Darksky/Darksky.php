@@ -132,8 +132,9 @@ class Darksky
     }
 
     /**
-     * @param array $exclude
-     * @param bool  $extend
+     * @param array  $exclude
+     * @param bool   $extend
+     * @param string $time
      *
      * @return string
      */
