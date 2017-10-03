@@ -21,7 +21,7 @@ A simple wrapper for Dark Sky API
 ## Usage
 - Get the API key from https://darksky.net/dev
 - Install this package in your project:<br> `composer require darksky/darksky`
-- To forecast
+- To forecast:
 ```
 try {
     $darksky = new Darksky('API_KEY', 'LAT', 'LONG');
@@ -31,7 +31,7 @@ try {
 }
 ```
 
-- To use the time machine
+- To use the time machine:
 ```
 try {
     $darksky = new Darksky('API_KEY', 'LAT', 'LONG');
