@@ -14,7 +14,7 @@ addons:
 install:
     - composer install
 
-script: phpunit --coverage-clover build/logs/clover.xml --configuration phpunit.xml
+script: vendor/bin/phpunit --coverage-clover build/logs/clover.xml --configuration phpunit.xml
 
 after_success:
 - vendor/bin/test-reporter
