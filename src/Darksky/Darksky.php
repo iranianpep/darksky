@@ -40,7 +40,7 @@ class Darksky
      * @param string $lang
      * @param string $units
      */
-    public function __construct($key, $latitude, $longitude, $lang = 'en', $units = 'auto')
+    public function __construct(string $key, string $latitude, string $longitude, string $lang = 'en', string $units = 'auto')
     {
         $this->setKey($key);
         $this->setLatitude($latitude);
@@ -74,7 +74,7 @@ class Darksky
      *
      * @return bool|string
      */
-    public function timeMachine($time, array $exclude = [])
+    public function timeMachine(string $time, array $exclude = [])
     {
         try {
             return file_get_contents($this->generateRequestUrl($exclude, false, $time));
@@ -86,7 +86,7 @@ class Darksky
     /**
      * @return string
      */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
@@ -94,7 +94,7 @@ class Darksky
     /**
      * @param string $key
      */
-    public function setKey($key)
+    public function setKey(string $key)
     {
         $this->key = $key;
     }
@@ -102,7 +102,7 @@ class Darksky
     /**
      * @return string
      */
-    public function getLatitude()
+    public function getLatitude(): string
     {
         return $this->latitude;
     }
@@ -110,7 +110,7 @@ class Darksky
     /**
      * @param string $latitude
      */
-    public function setLatitude($latitude)
+    public function setLatitude(string $latitude)
     {
         $this->latitude = $latitude;
     }
@@ -118,7 +118,7 @@ class Darksky
     /**
      * @return string
      */
-    public function getLongitude()
+    public function getLongitude(): string
     {
         return $this->longitude;
     }
@@ -126,7 +126,7 @@ class Darksky
     /**
      * @param string $longitude
      */
-    public function setLongitude($longitude)
+    public function setLongitude(string $longitude)
     {
         $this->longitude = $longitude;
     }
@@ -138,7 +138,7 @@ class Darksky
      *
      * @return string
      */
-    private function generateRequestUrl(array $exclude = [], $extend = false, $time = '')
+    private function generateRequestUrl(array $exclude = [], $extend = false, string $time = ''): string
     {
         if (!empty($time)) {
             $time = ",{$time}";
@@ -156,7 +156,7 @@ class Darksky
      *
      * @return string
      */
-    private function generateUrlQueryString(array $exclude = [], $extend = false)
+    private function generateUrlQueryString(array $exclude = [], $extend = false): string
     {
         $queryString = ['lang'  => $this->getLanguage(), 'units' => $this->getUnits()];
 
@@ -183,7 +183,7 @@ class Darksky
      *
      * @return bool
      */
-    private function validateExcludes($exclude)
+    private function validateExcludes(array $exclude): bool
     {
         if (empty($exclude)) {
             return true;
@@ -201,7 +201,7 @@ class Darksky
     /**
      * @return string
      */
-    public function getLanguage()
+    public function getLanguage(): string
     {
         return $this->language;
     }
@@ -209,7 +209,7 @@ class Darksky
     /**
      * @param string $language
      */
-    public function setLanguage($language)
+    public function setLanguage(string $language)
     {
         $this->language = $language;
     }
@@ -217,7 +217,7 @@ class Darksky
     /**
      * @return string
      */
-    public function getUnits()
+    public function getUnits(): string
     {
         return $this->units;
     }
@@ -227,7 +227,7 @@ class Darksky
      *
      * @throws \Exception
      */
-    public function setUnits($units)
+    public function setUnits(string $units)
     {
         if (!in_array($units, self::VALID_UNITS)) {
             $validUnits = implode(',', self::VALID_UNITS);
