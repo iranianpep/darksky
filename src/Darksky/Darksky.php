@@ -158,7 +158,7 @@ class Darksky
      */
     private function generateUrlQueryString(array $exclude = [], $extend = false): string
     {
-        $queryString = ['lang'  => $this->getLanguage(), 'units' => $this->getUnits()];
+        $queryString = ['lang' => $this->getLanguage(), 'units' => $this->getUnits()];
 
         // validate $exclude
         if ($this->validateExcludes($exclude) !== true) {
