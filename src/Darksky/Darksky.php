@@ -40,8 +40,13 @@ class Darksky
      * @param string $lang
      * @param string $units
      */
-    public function __construct(string $key, string $latitude, string $longitude, string $lang = 'en', string $units = 'auto')
-    {
+    public function __construct(
+        string $key,
+        string $latitude,
+        string $longitude,
+        string $lang = 'en',
+        string $units = 'auto'
+    ) {
         $this->setKey($key);
         $this->setLatitude($latitude);
         $this->setLongitude($longitude);
