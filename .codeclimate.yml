@@ -16,6 +16,8 @@ engines:
       languages:
         php:
           mass_threshold: 53
+  sonar-php:
+    enabled: true
 ratings:
    paths:
    - "src/**/*"

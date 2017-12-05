@@ -1,3 +1,7 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=806ffaf1bcd1080b8b6ba4839e7acefdb6508332b18162816e4683307e008fec
+
 language: php
 
 matrix:
@@ -12,9 +16,16 @@ addons:
     repo_token: 806ffaf1bcd1080b8b6ba4839e7acefdb6508332b18162816e4683307e008fec
 
 install:
-    - composer install
+  - composer install
 
-script: vendor/bin/phpunit --coverage-clover build/logs/clover.xml --configuration phpunit.xml
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 
-after_success:
-- vendor/bin/test-reporter
+script:
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml --configuration phpunit.xml
+  - bundle exec rspec
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
