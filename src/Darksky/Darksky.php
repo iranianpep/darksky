@@ -26,8 +26,6 @@ class Darksky
     ];
 
     private $key;
-    private $latitude;
-    private $longitude;
     private $language;
     private $units;
 
