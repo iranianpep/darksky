@@ -103,8 +103,8 @@ class Darksky
     /**
      * @param $latitude
      * @param $longitude
-     * @param array $exclude
-     * @param bool $extend
+     * @param array  $exclude
+     * @param bool   $extend
      * @param string $time
      *
      * @return string
