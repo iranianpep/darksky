@@ -89,7 +89,7 @@ class DarkskyTest extends TestCase
 
         $darksky = new Darksky(self::API_KEY);
         $darksky->forecast(self::LAT, self::LONG, [
-            self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude'
+            self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude',
         ]);
     }
 
