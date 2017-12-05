@@ -7,9 +7,14 @@ use PHPUnit\Framework\TestCase;
 class DarkskyTest extends TestCase
 {
     const API_KEY = '12345';
+    const API_KEY_2 = '123456';
     const LAT = '42.3601';
     const LONG = '-71.0589';
     const TIMEZONE = 'America/New_York';
+    const EXCLUDES = ['minutely', 'hourly', 'daily', 'alerts'];
+    const FORECAST_FUNCTION = 'forecast';
+    const PHPUNIT_WARNING = '\PHPUnit\Framework\Error\Warning';
+    const HTTP_ERROR = 'HTTP request failed! HTTP/1.1 403 Forbidden';
 
     public function testForecast()
     {
@@ -17,7 +22,7 @@ class DarkskyTest extends TestCase
         $stub = $this->createMock(Darksky::class);
 
         // Configure the stub.
-        $stub->method('forecast')
+        $stub->method(self::FORECAST_FUNCTION)
             ->willReturn($this->getSampleResponse());
 
         $result = $stub->forecast();
@@ -29,10 +34,10 @@ class DarkskyTest extends TestCase
     public function testForecastEmptyExcludeAndHourly()
     {
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $this->expectException('\PHPUnit\Framework\Error\Warning');
+        $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&extend=hourly';
-        $httpError = 'HTTP request failed! HTTP/1.1 403 Forbidden';
+        $httpError = self::HTTP_ERROR;
         $this->expectExceptionMessage(
             "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
         );
@@ -43,30 +48,28 @@ class DarkskyTest extends TestCase
     public function testForecastWithExcludeAndHourly()
     {
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $this->expectException('\PHPUnit\Framework\Error\Warning');
+        $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts&extend=hourly';
-        $httpError = 'HTTP request failed! HTTP/1.1 403 Forbidden';
+        $httpError = self::HTTP_ERROR;
         $this->expectExceptionMessage(
             "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
         );
 
-        $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts'], true);
+        $darksky->forecast(self::EXCLUDES, true);
     }
 
     public function testForecastWithExclude()
     {
-        $excludes = ['minutely', 'hourly', 'daily', 'alerts'];
-
         // Create a stub for the SomeClass class.
         $stub = $this->createMock(Darksky::class);
 
         // Configure the stub.
-        $stub->method('forecast')
+        $stub->method(self::FORECAST_FUNCTION)
             ->with($this->isType('array'), $this->isType('bool'))
-            ->will($this->returnValue($this->getSampleResponse($excludes)));
+            ->will($this->returnValue($this->getSampleResponse(self::EXCLUDES)));
 
-        $result = $stub->forecast($excludes, true);
+        $result = $stub->forecast(self::EXCLUDES, true);
         $result = json_decode($result, true);
 
         $this->assertTrue(isset($result['currently']));
@@ -90,7 +93,7 @@ class DarkskyTest extends TestCase
         $stub = $this->createMock(Darksky::class);
 
         // Configure the stub.
-        $stub->method('forecast')
+        $stub->method(self::FORECAST_FUNCTION)
             ->willReturn($this->getSampleResponse());
 
         $result = $stub->forecast();
@@ -101,7 +104,7 @@ class DarkskyTest extends TestCase
 
         // Configure the stub.
         $stub = $this->createMock(Darksky::class);
-        $stub->method('forecast')
+        $stub->method(self::FORECAST_FUNCTION)
             ->willReturn($this->getSampleResponse([], true));
 
         $result = $stub->forecast([], true);
@@ -129,10 +132,10 @@ class DarkskyTest extends TestCase
     public function testTimeMachineWithException()
     {
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $this->expectException('\PHPUnit\Framework\Error\Warning');
+        $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589,409467600';
         $queryString = 'lang=en&units=auto';
-        $httpError = 'HTTP request failed! HTTP/1.1 403 Forbidden';
+        $httpError = self::HTTP_ERROR;
         $this->expectExceptionMessage(
             "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
         );
@@ -169,8 +172,8 @@ class DarkskyTest extends TestCase
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
         $this->assertEquals(self::API_KEY, $darksky->getKey());
 
-        $darksky->setKey('12345');
-        $this->assertEquals('12345', $darksky->getKey());
+        $darksky->setKey(self::API_KEY_2);
+        $this->assertEquals(self::API_KEY_2, $darksky->getKey());
     }
 
     public function testGetLongitude()
