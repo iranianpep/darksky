@@ -88,7 +88,9 @@ class DarkskyTest extends TestCase
         $this->expectExceptionMessage("Invalid excludes. Provide valid excludes: {$validExcludes}");
 
         $darksky = new Darksky(self::API_KEY);
-        $darksky->forecast(self::LAT, self::LONG, [self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude']);
+        $darksky->forecast(self::LAT, self::LONG, [
+            self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude'
+        ]);
     }
 
     public function testForecastHourly()
