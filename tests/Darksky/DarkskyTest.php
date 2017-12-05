@@ -29,7 +29,7 @@ class DarkskyTest extends TestCase
         $stub->method(self::FORECAST_FUNCTION)
             ->willReturn($this->getSampleResponse());
 
-        $result = $stub->forecast();
+        $result = $stub->forecast(self::LAT, self::LONG);
         $result = json_decode($result, true);
 
         $this->assertEquals(self::TIMEZONE, $result['timezone']);
@@ -37,7 +37,7 @@ class DarkskyTest extends TestCase
 
     public function testForecastEmptyExcludeAndHourly()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $darksky = new Darksky(self::API_KEY);
         $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&extend=hourly';
@@ -46,12 +46,12 @@ class DarkskyTest extends TestCase
             "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
         );
 
-        $darksky->forecast([], true);
+        $darksky->forecast(self::LAT, self::LONG, [], true);
     }
 
     public function testForecastWithExcludeAndHourly()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $darksky = new Darksky(self::API_KEY);
         $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts&extend=hourly';
@@ -60,7 +60,7 @@ class DarkskyTest extends TestCase
             "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
         );
 
-        $darksky->forecast(self::EXCLUDES, true);
+        $darksky->forecast(self::LAT, self::LONG, self::EXCLUDES, true);
     }
 
     public function testForecastWithExclude()
@@ -87,8 +87,8 @@ class DarkskyTest extends TestCase
         $validExcludes = implode(',', Darksky::VALID_EXCLUDE);
         $this->expectExceptionMessage("Invalid excludes. Provide valid excludes: {$validExcludes}");
 
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $darksky->forecast([self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude']);
+        $darksky = new Darksky(self::API_KEY);
+        $darksky->forecast(self::LAT, self::LONG, [self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude']);
     }
 
     public function testForecastHourly()
@@ -100,7 +100,7 @@ class DarkskyTest extends TestCase
         $stub->method(self::FORECAST_FUNCTION)
             ->willReturn($this->getSampleResponse());
 
-        $result = $stub->forecast();
+        $result = $stub->forecast(self::LAT, self::LONG);
         $result = json_decode($result, true);
 
         // next 48 hours
@@ -127,7 +127,7 @@ class DarkskyTest extends TestCase
         $stub->method('timeMachine')
             ->willReturn($this->getSampleTimeMachineResponse());
 
-        $result = $stub->timeMachine('409467600');
+        $result = $stub->timeMachine(self::LAT, self::LONG, '409467600');
         $result = json_decode($result, true);
 
         $this->assertEquals(self::TIMEZONE, $result['timezone']);
@@ -135,7 +135,7 @@ class DarkskyTest extends TestCase
 
     public function testTimeMachineWithException()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $darksky = new Darksky(self::API_KEY);
         $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589,409467600';
         $queryString = 'lang=en&units=auto';
@@ -144,12 +144,12 @@ class DarkskyTest extends TestCase
             "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
         );
 
-        $darksky->timeMachine('409467600');
+        $darksky->timeMachine(self::LAT, self::LONG, '409467600');
     }
 
     public function testSetUnits()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $darksky = new Darksky(self::API_KEY);
         $this->assertEquals('auto', $darksky->getUnits());
 
         $darksky->setUnits('si');
@@ -164,7 +164,7 @@ class DarkskyTest extends TestCase
 
     public function testGetLanguage()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $darksky = new Darksky(self::API_KEY);
         $this->assertEquals('en', $darksky->getLanguage());
 
         $darksky->setLanguage('ar');
@@ -173,28 +173,16 @@ class DarkskyTest extends TestCase
 
     public function testGetKey()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
+        $darksky = new Darksky(self::API_KEY);
         $this->assertEquals(self::API_KEY, $darksky->getKey());
 
         $darksky->setKey(self::API_KEY_2);
         $this->assertEquals(self::API_KEY_2, $darksky->getKey());
     }
 
-    public function testGetLongitude()
+    private function getJsonResponse()
     {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $this->assertEquals(self::LONG, $darksky->getLongitude());
-    }
-
-    public function testGetLatitude()
-    {
-        $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $this->assertEquals(self::LAT, $darksky->getLatitude());
-    }
-
-    private function getSampleResponse(array $excludes = [], $hourly = false)
-    {
-        $response = '
+        return '
         {
   "latitude": '.self::LAT.',
   "longitude": '.self::LONG.',
@@ -306,7 +294,11 @@ class DarkskyTest extends TestCase
   }
 }
         ';
+    }
 
+    private function getSampleResponse(array $excludes = [], $hourly = false)
+    {
+        $response = $this->getJsonResponse();
         $response = json_decode($response, true);
 
         // Filter the sample response based on excludes

@@ -24,8 +24,10 @@ A simple wrapper for Dark Sky API
 - To forecast:
 ```
 try {
-    $darksky = new Darksky('API_KEY', 'LAT', 'LONG');
-    $result = $darksky->forecast();
+    $darksky = new Darksky('API_KEY');
+    $result = $darksky->forecast('LAT', 'LONG');
+} catch(DarkskyException $e) {
+    // handle the exception
 } catch(Exception $e) {
     // handle the exception
 }
@@ -34,8 +36,10 @@ try {
 - To use the time machine:
 ```
 try {
-    $darksky = new Darksky('API_KEY', 'LAT', 'LONG');
-    $result = $darksky->timeMachine('UNIX_TIME');
+    $darksky = new Darksky('API_KEY');
+    $result = $darksky->timeMachine('LAT', 'LONG', 'UNIX_TIME');
+} catch(DarkskyException $e) {
+    // handle the exception
 } catch(Exception $e) {
     // handle the exception
 }

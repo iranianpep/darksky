@@ -35,26 +35,22 @@ class Darksky
      * Darksky constructor.
      *
      * @param        $key
-     * @param        $latitude
-     * @param        $longitude
      * @param string $lang
      * @param string $units
      */
     public function __construct(
         string $key,
-        string $latitude,
-        string $longitude,
         string $lang = 'en',
         string $units = 'auto'
     ) {
         $this->setKey($key);
-        $this->setLatitude($latitude);
-        $this->setLongitude($longitude);
         $this->setLanguage($lang);
         $this->setUnits($units);
     }
 
     /**
+     * @param       $latitude
+     * @param       $longitude
      * @param array $exclude
      * @param bool  $extend
      *
@@ -62,16 +58,18 @@ class Darksky
      *
      * @return string
      */
-    public function forecast(array $exclude = [], $extend = false)
+    public function forecast($latitude, $longitude, array $exclude = [], $extend = false)
     {
         try {
-            return file_get_contents($this->generateRequestUrl($exclude, $extend));
+            return file_get_contents($this->generateRequestUrl($latitude, $longitude, $exclude, $extend));
         } catch (\Exception $e) {
             throw $e;
         }
     }
 
     /**
+     * @param $latitude
+     * @param $longitude
      * @param $time
      * @param array $exclude
      *
@@ -79,10 +77,10 @@ class Darksky
      *
      * @return bool|string
      */
-    public function timeMachine(string $time, array $exclude = [])
+    public function timeMachine($latitude, $longitude, string $time, array $exclude = [])
     {
         try {
-            return file_get_contents($this->generateRequestUrl($exclude, false, $time));
+            return file_get_contents($this->generateRequestUrl($latitude, $longitude, $exclude, false, $time));
         } catch (\Exception $e) {
             throw $e;
         }
@@ -105,51 +103,19 @@ class Darksky
     }
 
     /**
-     * @return string
-     */
-    public function getLatitude(): string
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * @param string $latitude
-     */
-    public function setLatitude(string $latitude)
-    {
-        $this->latitude = $latitude;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLongitude(): string
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * @param string $longitude
-     */
-    public function setLongitude(string $longitude)
-    {
-        $this->longitude = $longitude;
-    }
-
-    /**
      * @param array  $exclude
      * @param bool   $extend
      * @param string $time
      *
      * @return string
      */
-    private function generateRequestUrl(array $exclude = [], $extend = false, string $time = ''): string
+    private function generateRequestUrl($latitude, $longitude, array $exclude = [], $extend = false, string $time = ''): string
     {
         if (!empty($time)) {
             $time = ",{$time}";
         }
 
-        return self::API_BASE_URL.'/'.$this->getKey().'/'.$this->getLatitude().','.$this->getLongitude().$time
+        return self::API_BASE_URL.'/'.$this->getKey().'/'.$latitude.','.$longitude.$time
             .'?'.$this->generateUrlQueryString($exclude, $extend);
     }
 
