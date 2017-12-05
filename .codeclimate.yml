@@ -35,3 +35,5 @@ checks:
     enabled: false
   method-complexity:
     enabled: false
+  method-lines:
+    enabled: false
