@@ -101,18 +101,21 @@ class Darksky
     }
 
     /**
-     * @param array  $exclude
-     * @param bool   $extend
+     * @param $latitude
+     * @param $longitude
+     * @param array $exclude
+     * @param bool $extend
      * @param string $time
      *
      * @return string
      */
     private function generateRequestUrl(
-        $latitude, $longitude,
+        $latitude,
+        $longitude,
         array $exclude = [],
         $extend = false,
-        string $time = ''): string
-    {
+        string $time = ''
+    ): string {
         if (!empty($time)) {
             $time = ",{$time}";
         }
