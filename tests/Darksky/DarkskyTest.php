@@ -11,7 +11,11 @@ class DarkskyTest extends TestCase
     const LAT = '42.3601';
     const LONG = '-71.0589';
     const TIMEZONE = 'America/New_York';
-    const EXCLUDES = ['minutely', 'hourly', 'daily', 'alerts'];
+    const MINUTELY = 'minutely';
+    const HOURLY = 'hourly';
+    const DAILY = 'daily';
+    const ALERTS = 'alerts';
+    const EXCLUDES = [self::MINUTELY, self::HOURLY, self::DAILY, self::ALERTS];
     const FORECAST_FUNCTION = 'forecast';
     const PHPUNIT_WARNING = '\PHPUnit\Framework\Error\Warning';
     const HTTP_ERROR = 'HTTP request failed! HTTP/1.1 403 Forbidden';
@@ -73,10 +77,10 @@ class DarkskyTest extends TestCase
         $result = json_decode($result, true);
 
         $this->assertTrue(isset($result['currently']));
-        $this->assertFalse(isset($result['minutely']));
-        $this->assertFalse(isset($result['hourly']));
-        $this->assertFalse(isset($result['daily']));
-        $this->assertFalse(isset($result['alerts']));
+        $this->assertFalse(isset($result[self::MINUTELY]));
+        $this->assertFalse(isset($result[self::HOURLY]));
+        $this->assertFalse(isset($result[self::MINUTELY]));
+        $this->assertFalse(isset($result[self::ALERTS]));
         $this->assertTrue(isset($result['flags']));
 
         $this->expectException('\Exception');
@@ -84,7 +88,7 @@ class DarkskyTest extends TestCase
         $this->expectExceptionMessage("Invalid excludes. Provide valid excludes: {$validExcludes}");
 
         $darksky = new Darksky(self::API_KEY, self::LAT, self::LONG);
-        $darksky->forecast(['minutely', 'hourly', 'daily', 'alerts', 'invalid-exclude']);
+        $darksky->forecast([self::MINUTELY, self::HOURLY, self::MINUTELY, self::ALERTS, 'invalid-exclude']);
     }
 
     public function testForecastHourly()
@@ -100,7 +104,7 @@ class DarkskyTest extends TestCase
         $result = json_decode($result, true);
 
         // next 48 hours
-        $this->assertEquals(49, count($result['hourly']['data']));
+        $this->assertEquals(49, count($result[self::HOURLY]['data']));
 
         // Configure the stub.
         $stub = $this->createMock(Darksky::class);
@@ -111,7 +115,7 @@ class DarkskyTest extends TestCase
         $result = json_decode($result, true);
 
         // next 168 hours
-        $this->assertEquals(169, count($result['hourly']['data']));
+        $this->assertEquals(169, count($result[self::HOURLY]['data']));
     }
 
     public function testTimeMachine()
@@ -315,13 +319,13 @@ class DarkskyTest extends TestCase
         }
 
         // Simulate 49 hourly data
-        if (isset($response['hourly'])) {
-            $firstData = $response['hourly']['data'][0];
+        if (isset($response[self::HOURLY])) {
+            $firstData = $response[self::HOURLY]['data'][0];
 
             $limit = $hourly === true ? 168 : 48;
 
             for ($i = 0; $i < $limit; $i++) {
-                $response['hourly']['data'][] = $firstData;
+                $response[self::HOURLY]['data'][] = $firstData;
             }
         }
 
