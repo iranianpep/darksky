@@ -35,6 +35,7 @@ class Darksky
      * @param string $key
      * @param string $lang
      * @param string $units
+     *
      * @throws \Exception
      */
     public function __construct(
@@ -104,12 +105,13 @@ class Darksky
     /**
      * @param $latitude
      * @param $longitude
-     * @param array $exclude
-     * @param bool $extend
+     * @param array  $exclude
+     * @param bool   $extend
      * @param string $time
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     private function generateRequestUrl(
         $latitude,
