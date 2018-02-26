@@ -36,8 +36,7 @@ try {
 - To use the time machine:
 ```
 try {
-    $darksky = new Darksky('API_KEY');
-    $result = $darksky->timeMachine('LAT', 'LONG', 'UNIX_TIME');
+    $result = (new Darksky('API_KEY'))->timeMachine('LAT', 'LONG', 'UNIX_TIME');
 } catch(DarkskyException $e) {
     // handle the exception
 } catch(Exception $e) {
