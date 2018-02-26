@@ -24,8 +24,7 @@ A simple wrapper for Dark Sky API
 - To forecast:
 ```
 try {
-    $darksky = new Darksky('API_KEY');
-    $result = $darksky->forecast('LAT', 'LONG');
+    $result = (new Darksky('API_KEY'))->forecast('LAT', 'LONG');
 } catch(DarkskyException $e) {
     // handle the exception
 } catch(Exception $e) {
