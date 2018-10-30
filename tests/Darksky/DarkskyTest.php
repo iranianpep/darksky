@@ -46,7 +46,6 @@ class DarkskyTest extends TestCase
         } catch (\Exception $e) {
             $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
         }
-
     }
 
     public function testForecastWithExcludeAndHourly()
