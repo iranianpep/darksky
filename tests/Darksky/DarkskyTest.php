@@ -38,29 +38,28 @@ class DarkskyTest extends TestCase
     public function testForecastEmptyExcludeAndHourly()
     {
         $darksky = new Darksky(self::API_KEY);
-        $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&extend=hourly';
-        $httpError = self::HTTP_ERROR;
-        $this->expectExceptionMessage(
-            "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
-        );
 
-        $darksky->forecast(self::LAT, self::LONG, [], true);
+        try {
+            $darksky->forecast(self::LAT, self::LONG, [], true);
+        } catch (\Exception $e) {
+            $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
+        }
+
     }
 
     public function testForecastWithExcludeAndHourly()
     {
         $darksky = new Darksky(self::API_KEY);
-        $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts&extend=hourly';
-        $httpError = self::HTTP_ERROR;
-        $this->expectExceptionMessage(
-            "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
-        );
 
-        $darksky->forecast(self::LAT, self::LONG, self::EXCLUDES, true);
+        try {
+            $darksky->forecast(self::LAT, self::LONG, self::EXCLUDES, true);
+        } catch (\Exception $e) {
+            $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
+        }
     }
 
     public function testForecastWithExclude()
@@ -138,15 +137,14 @@ class DarkskyTest extends TestCase
     public function testTimeMachineWithException()
     {
         $darksky = new Darksky(self::API_KEY);
-        $this->expectException(self::PHPUNIT_WARNING);
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589,409467600';
         $queryString = 'lang=en&units=auto';
-        $httpError = self::HTTP_ERROR;
-        $this->expectExceptionMessage(
-            "file_get_contents({$baseURL}?{$queryString}): failed to open stream: {$httpError}"
-        );
 
-        $darksky->timeMachine(self::LAT, self::LONG, '409467600');
+        try {
+            $darksky->timeMachine(self::LAT, self::LONG, '409467600');
+        } catch (\Exception $e) {
+            $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
+        }
     }
 
     public function testSetUnits()

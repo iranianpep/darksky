@@ -61,7 +61,7 @@ class Darksky
     public function forecast($latitude, $longitude, array $exclude = [], $extend = false)
     {
         try {
-            return file_get_contents($this->generateRequestUrl($latitude, $longitude, $exclude, $extend));
+            return $this->getFileContent($this->generateRequestUrl($latitude, $longitude, $exclude, $extend));
         } catch (\Exception $e) {
             throw $e;
         }
@@ -80,7 +80,7 @@ class Darksky
     public function timeMachine($latitude, $longitude, string $time, array $exclude = [])
     {
         try {
-            return file_get_contents($this->generateRequestUrl($latitude, $longitude, $exclude, false, $time));
+            return $this->getFileContent($this->generateRequestUrl($latitude, $longitude, $exclude, false, $time));
         } catch (\Exception $e) {
             throw $e;
         }
@@ -216,5 +216,23 @@ class Darksky
         }
 
         $this->units = $units;
+    }
+
+    /**
+     * @param $filename
+     *
+     * @throws DarkskyException
+     *
+     * @return bool|string
+     */
+    private function getFileContent($filename)
+    {
+        $content = @file_get_contents($filename);
+
+        if ($content === false) {
+            throw new DarkskyException("Failed reading: '{$filename}'");
+        }
+
+        return $content;
     }
 }
