@@ -1,5 +1,7 @@
 checks:
-    php: true
+    php:
+      excluded_dependencies:
+        - phpunit/phpunit
 
 filter:
     paths: ["src/*"]
