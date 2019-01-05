@@ -41,11 +41,10 @@ class DarkskyTest extends TestCase
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&extend=hourly';
 
-        try {
-            $darksky->forecast(self::LAT, self::LONG, [], true);
-        } catch (\Exception $e) {
-            $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
-        }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Failed reading: '{$baseURL}?{$queryString}'");
+
+        $darksky->forecast(self::LAT, self::LONG, [], true);
     }
 
     public function testForecastWithExcludeAndHourly()
@@ -54,11 +53,10 @@ class DarkskyTest extends TestCase
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
         $queryString = 'lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts&extend=hourly';
 
-        try {
-            $darksky->forecast(self::LAT, self::LONG, self::EXCLUDES, true);
-        } catch (\Exception $e) {
-            $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
-        }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Failed reading: '{$baseURL}?{$queryString}'");
+
+        $darksky->forecast(self::LAT, self::LONG, self::EXCLUDES, true);
     }
 
     public function testForecastWithExclude()
@@ -74,14 +72,14 @@ class DarkskyTest extends TestCase
         $result = $stub->forecast(self::EXCLUDES, true);
         $result = json_decode($result, true);
 
-        $this->assertTrue(isset($result['currently']));
-        $this->assertFalse(isset($result[self::MINUTELY]));
-        $this->assertFalse(isset($result[self::HOURLY]));
-        $this->assertFalse(isset($result[self::MINUTELY]));
-        $this->assertFalse(isset($result[self::ALERTS]));
-        $this->assertTrue(isset($result['flags']));
+        $this->assertArrayHasKey('currently', $result);
+        $this->assertArrayNotHasKey(self::MINUTELY, $result);
+        $this->assertArrayNotHasKey(self::HOURLY, $result);
+        $this->assertArrayNotHasKey(self::MINUTELY, $result);
+        $this->assertArrayNotHasKey(self::ALERTS, $result);
+        $this->assertArrayHasKey('flags', $result);
 
-        $this->expectException('\Exception');
+        $this->expectException(\Exception::class);
         $validExcludes = implode(',', Darksky::VALID_EXCLUDE);
         $this->expectExceptionMessage("Invalid excludes. Provide valid excludes: {$validExcludes}");
 
@@ -104,7 +102,7 @@ class DarkskyTest extends TestCase
         $result = json_decode($result, true);
 
         // next 48 hours
-        $this->assertEquals(49, count($result[self::HOURLY]['data']));
+        $this->assertCount(49, $result[self::HOURLY]['data']);
 
         // Configure the stub.
         $stub = $this->createMock(Darksky::class);
@@ -115,7 +113,7 @@ class DarkskyTest extends TestCase
         $result = json_decode($result, true);
 
         // next 168 hours
-        $this->assertEquals(169, count($result[self::HOURLY]['data']));
+        $this->assertCount(169, $result[self::HOURLY]['data']);
     }
 
     public function testTimeMachine()
@@ -139,11 +137,10 @@ class DarkskyTest extends TestCase
         $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589,409467600';
         $queryString = 'lang=en&units=auto';
 
-        try {
-            $darksky->timeMachine(self::LAT, self::LONG, '409467600');
-        } catch (\Exception $e) {
-            $this->assertEquals("Failed reading: '{$baseURL}?{$queryString}'", $e->getMessage());
-        }
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage("Failed reading: '{$baseURL}?{$queryString}'");
+
+        $darksky->timeMachine(self::LAT, self::LONG, '409467600');
     }
 
     public function testSetUnits()
@@ -154,7 +151,7 @@ class DarkskyTest extends TestCase
         $darksky->setUnits('si');
         $this->assertEquals('si', $darksky->getUnits());
 
-        $this->expectException('\Exception');
+        $this->expectException(\Exception::class);
         $validUnits = implode(',', Darksky::VALID_UNITS);
         $this->expectExceptionMessage("'invalid-units' is not a valid unit. Valid units: {$validUnits}");
 
