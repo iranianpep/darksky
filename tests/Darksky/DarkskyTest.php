@@ -19,6 +19,7 @@ class DarkskyTest extends TestCase
     const FORECAST_FUNCTION = 'forecast';
     const PHPUNIT_WARNING = '\PHPUnit\Framework\Error\Warning';
     const HTTP_ERROR = 'HTTP request failed! HTTP/1.1 403 Forbidden';
+    const HOURLY_BASE_URL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
 
     public function testForecast()
     {
@@ -35,10 +36,26 @@ class DarkskyTest extends TestCase
         $this->assertEquals(self::TIMEZONE, $result['timezone']);
     }
 
+    public function testForecastEmptyExcludeAndHourlyWithGuzzleClient()
+    {
+        $darksky = new Darksky(self::API_KEY, 'en', 'auto', new GuzzleGet());
+        $baseURL = self::HOURLY_BASE_URL;
+
+        $queryString = 'lang=en&units=auto&extend=hourly';
+
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage(
+            "Client error: `GET {$baseURL}?{$queryString}` resulted in a `403 Forbidden` response:
+Forbidden"
+        );
+
+        $darksky->forecast(self::LAT, self::LONG, [], true);
+    }
+
     public function testForecastEmptyExcludeAndHourly()
     {
         $darksky = new Darksky(self::API_KEY);
-        $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
+        $baseURL = self::HOURLY_BASE_URL;
         $queryString = 'lang=en&units=auto&extend=hourly';
 
         $this->expectException(\Exception::class);
@@ -50,7 +67,7 @@ class DarkskyTest extends TestCase
     public function testForecastWithExcludeAndHourly()
     {
         $darksky = new Darksky(self::API_KEY);
-        $baseURL = 'https://api.darksky.net/forecast/12345/42.3601,-71.0589';
+        $baseURL = self::HOURLY_BASE_URL;
         $queryString = 'lang=en&units=auto&exclude=minutely%2Chourly%2Cdaily%2Calerts&extend=hourly';
 
         $this->expectException(\Exception::class);
