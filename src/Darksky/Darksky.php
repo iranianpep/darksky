@@ -28,6 +28,7 @@ class Darksky
     private $key;
     private $language;
     private $units;
+    private $requestMethod;
 
     /**
      * Darksky constructor.
@@ -41,11 +42,13 @@ class Darksky
     public function __construct(
         string $key,
         string $lang = 'en',
-        string $units = 'auto'
+        string $units = 'auto',
+        RequestMethod $requestMethod = null
     ) {
         $this->setKey($key);
         $this->setLanguage($lang);
         $this->setUnits($units);
+        $this->requestMethod = $requestMethod ?? new Get();
     }
 
     /**
@@ -61,7 +64,7 @@ class Darksky
     public function forecast($latitude, $longitude, array $exclude = [], $extend = false)
     {
         try {
-            return $this->getFileContent($this->generateRequestUrl($latitude, $longitude, $exclude, $extend));
+            return $this->requestMethod->submit($this->generateRequestUrl($latitude, $longitude, $exclude, $extend));
         } catch (\Exception $e) {
             throw $e;
         }
@@ -80,7 +83,15 @@ class Darksky
     public function timeMachine($latitude, $longitude, string $time, array $exclude = [])
     {
         try {
-            return $this->getFileContent($this->generateRequestUrl($latitude, $longitude, $exclude, false, $time));
+            return $this->requestMethod->submit(
+                $this->generateRequestUrl(
+                    $latitude,
+                    $longitude,
+                    $exclude,
+                    false,
+                    $time
+                )
+            );
         } catch (\Exception $e) {
             throw $e;
         }
@@ -216,23 +227,5 @@ class Darksky
         }
 
         $this->units = $units;
-    }
-
-    /**
-     * @param $filename
-     *
-     * @throws DarkskyException
-     *
-     * @return bool|string
-     */
-    private function getFileContent($filename)
-    {
-        $content = @file_get_contents($filename);
-
-        if ($content === false) {
-            throw new DarkskyException("Failed reading: '{$filename}'");
-        }
-
-        return $content;
     }
 }
