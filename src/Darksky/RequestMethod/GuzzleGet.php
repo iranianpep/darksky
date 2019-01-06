@@ -2,7 +2,6 @@
 
 namespace Darksky;
 
-use Exception;
 use GuzzleHttp\Client;
 
 /**
@@ -10,9 +9,6 @@ use GuzzleHttp\Client;
  */
 class GuzzleGet implements RequestMethod
 {
-    private $statusCode = null;
-    private $responseHeaders = [];
-
     /**
      * GuzzleGet constructor.
      */
@@ -25,7 +21,7 @@ class GuzzleGet implements RequestMethod
      *
      * @throws DarkskyException
      *
-     * @return bool|string
+     * @return GuzzleHttp\Psr7\Response
      */
     public function submit(string $requestUrl)
     {
@@ -33,29 +29,10 @@ class GuzzleGet implements RequestMethod
 
         try {
             $response = $client->request('GET', $requestUrl);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             throw new DarkskyException($e->getMessage());
         }
 
-        $this->statusCode = $response->getStatusCode();
-        $this->responseHeaders = $response->getHeaders();
-
-        return (string) $response->getBody();
-    }
-
-    /**
-     * @return int
-     */
-    public function getStatusCode(): int
-    {
-        return $this->statusCode;
-    }
-
-    /**
-     * @return array
-     */
-    public function getResponseHeaders(): array
-    {
-        return $this->responseHeaders;
+        return $response->getBody();
     }
 }
