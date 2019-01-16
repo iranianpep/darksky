@@ -20,8 +20,9 @@ class GuzzleGet implements RequestMethod
      * @param string $requestUrl
      *
      * @throws DarkskyException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      *
-     * @return GuzzleHttp\Psr7\Response
+     * @return \Psr\Http\Message\StreamInterface
      */
     public function submit(string $requestUrl)
     {
