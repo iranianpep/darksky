@@ -33,9 +33,9 @@ class Darksky
     /**
      * Darksky constructor.
      *
-     * @param string $key
-     * @param string $lang
-     * @param string $units
+     * @param string        $key
+     * @param string        $lang
+     * @param string        $units
      * @param RequestMethod $requestMethod
      *
      * @throws \Exception
