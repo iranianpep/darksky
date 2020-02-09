@@ -46,7 +46,7 @@ class DarkskyTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(
             "Client error: `GET {$baseURL}?{$queryString}` resulted in a `403 Forbidden` response:
-Forbidden"
+{\"code\":403,\"error\":\"permission denied\"}"
         );
 
         $darksky->forecast(self::LAT, self::LONG, [], true);

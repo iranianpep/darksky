@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" verbose="true" debug="true" processIsolation="true">
+<phpunit bootstrap="tests/bootstrap.php" backupGlobals="false" verbose="true" processIsolation="true">
   <testsuites>
     <testsuite name="Darksky Test Suite">
       <directory suffix="Test.php">tests/Darksky/</directory>
@@ -12,14 +12,6 @@
     </whitelist>
   </filter>
 
-  <php>
-    <const name="PHPUNIT_TESTSUITE" value="true"/>
-  </php>
-
-  <php>
-    <ini name="display_errors" value="true"/>
-  </php>
-
   <!--<logging>-->
     <!--<log type="coverage-html" target="./log/codeCoverage" charset="UTF-8"-->
          <!--yui="true" highlight="true"-->
@@ -27,4 +19,3 @@
     <!--<log type="testdox-html" target="./log/testdox.html" />-->
   <!--</logging>-->
 </phpunit>
-
